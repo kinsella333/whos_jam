@@ -1,0 +1,13 @@
+html
+  head
+    title= "Who's Jam"
+    block scripts
+    block styles
+    link(rel="stylesheet" type="text/css" href="/stylesheets/header.css")
+  body
+    div(class='container')
+      div(class='header_border')
+      img(class='title' src='/images/title.png' alt='title')
+      img(class='logo' src='/images/logo.png' alt='logo')
+      block content
+      block foot
