@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  {% extends 'header.njk' %}
+  {% block content %}
+    <head>
+      <!-- this is a link to the css file -->
+      <link rel="stylesheet" href="/create_entry.css" />
+    </head>
+    <body>
+      <div class="container">
+        <h1 class="display-4">Create Entry</h1>
+        <div>
+          <form id="game_settings">
+            <div class="card">
+              <div class="card buffer_search">
+                <input  id="name" class="form-control form-control-lg form-control-borderless" type="text" maxlength="20" placeholder="Name">
+                <div class="card-body row no-gutters align-items-center">
+                    <div class="col">
+                        <input id="song_search" class="form-control form-control-md form-control-borderless" type="search" placeholder="Search Song">
+                    </div>
+                    <div class="col-auto">
+                        <button id="song_search_b" class="btn btn-md btn-success" type="button" onclick="search_song()">Search</button>
+                    </div>
+                </div>
+                <ul id="song_results"> </ul>
+                <div id="selected_song_card" class="card selected_p" >
+                  <label id="selected_song" class="list-group-item list-group-item-action" value="default"></label>
+                </div>
+              </div>
+            </div>
+            <input id="submit_button" type="submit" value="Join Game" class="btn btn-primary"></input>
+          </form>
+        </div>
+      <div>
+    </body>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="create_entry.js"></script>
+    {% endblock %}
+</html>

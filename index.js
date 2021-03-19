@@ -1,45 +1,74 @@
 const SpotifyWebApi = require('spotify-web-api-node');
 const app = require('./config');
-const port = app.get('port');
 const path = require('path');
 const dotenv = require('dotenv');
+const nunjucks = require('nunjucks');
+const crypto = require('crypto');
+
+const admins = require("./routes/api/admins");
+const games = require("./routes/api/games");
+const spotify = require("./routes/api/spotify");
 
 dotenv.config({path: path.join(__dirname, '/.env')});
+nunjucks.configure('views', {
+  autoescape: true,
+  express: app
+})
 
-app.get('/', function (req, res) {
-  var scopes = ['user-read-private', 'user-read-email'],
-    clientId = process.env.CLIENT_ID,
-    redirectUri = process.env.REDIRECT_URI,
-    state = 'auth_test',
-    showDialog = true,
-    responseType = 'token';
+app.use("/api/admins", admins);
+app.use("/api/games", games);
+app.use("/api/spotify", spotify);
 
-  // Setting credentials can be done in the wrapper's constructor, or using the API object's setters.
-  var spotifyApi = new SpotifyWebApi({
-    redirectUri: redirectUri,
-    clientId: clientId
-  });
+app.get('/', function(req, res, next) {
+  res.render('index.njk')
+})
 
-  var authorizeURL = spotifyApi.createAuthorizeURL(scopes, state, showDialog, responseType);
-  res.render('index',{spotify_auth_link:authorizeURL});
+app.get('/home.js', function(req, res, next) {
+  res.sendFile(path.resolve('client_scripts/home.js'))
+})
+
+app.get('/admin', function(req, res, next) {
+  let admin_token = req.signedCookies['admin'];
+
+  if (admin_token) res.render('admin.njk')
+  else res.redirect('/api/admins/admin_login')
 });
 
-app.all('/callback', function (req, res) {
-  res.render('callback');
+app.get('/admin.js', function(req, res, next) {
+  res.sendFile(path.resolve('client_scripts/admin.js'))
 });
 
-app.post('/callback_handle', function (req, res) {
-  var token = req.body.token.split('=')[1]
-  token = token.substring(0, token.length-11)
+app.get('/callback', function (req, res) {
+  let admin_token = req.signedCookies['admin'];
 
-  res.setHeader('Content-Type', 'application/json');
-  res.end(JSON.stringify({ 'url': 'http://'+req.get('host')+'/user'}, null, 3));
+  if (admin_token) res.render('callback.njk')
+  else res.redirect('/api/admins/admin_login')
 });
 
-app.all('/user', function (req, res) {
-  res.render('user');
+app.post('/callback', function (req, res) {
+  let hash = req.body.spotify_hash.split('=')[1];
+  hash = hash.substring(0, hash.length-11)
+  let admin_token = req.signedCookies['admin'];
+  let game_token = req.signedCookies['game'];
+
+  if(admin_token && hash) {
+    var expire = new Date()
+    expire.setMinutes(expire.getMinutes() + 60);
+
+    res.cookie('spotify',hash,{
+        signed:true,
+        expires:expire
+    });
+    if(game_token)
+      res.status(200).send('http://'+req.headers.host+'/api/games/game/'+game_token)
+    else
+      res.status(200).send('http://'+req.headers.host+'/admin')
+  }else{
+    res.status(200).send('http://'+req.headers.host+'/api/admins/admin_login')
+  }
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+
+app.listen(process.env.PORT, process.env.HOST,() => {
+  console.log(`Example app listening at http://localhost:${process.env.PORT}`)
 })

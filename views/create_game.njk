@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  {% extends 'header.njk' %}
+  {% block content %}
+    <head>
+      <!-- this is a link to the css file -->
+      <link rel="stylesheet" href="/create_game.css" />
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+    </head>
+    <body>
+      <div class="container">
+        <h1 class="display-4">Create Game</h1>
+        <div>
+          <form id="game_settings">
+            <div class="card">
+              <h1 class="form-check-label display-6">Buffer Tracks</h1>
+              <div class="buffer">
+
+                <div class="buffer_check">
+                  <input type="checkbox" class="form-check-input-lg" id="buffer_check">
+                  <label class="form-check-label" for="buffer_check">Buffer Songs</label><br>
+                </div>
+
+                <div class="buffer_range">
+                  <label class="form-check-label" for="slider">Buffer Range</label>
+                  <input disabled id="min" class="form-control form-control-sm form-control-borderless" type="number" placeholder="0" max="5" min="0" value="0">
+                  <input disabled id="max" class="form-control form-control-sm form-control-borderless" type="number" placeholder="2" max="5" min="1" value="2">
+                </div>
+              </div>
+              <div class="card buffer_search">
+                <div class="card-body row no-gutters align-items-center">
+                    <div class="col">
+                        <input disabled id="buffer_playlist_search" class="form-control form-control-md form-control-borderless" type="search" placeholder="Search Playlists">
+                    </div>
+                    <div class="col-auto">
+                        <button id="buffer_playlist_search_b" class="btn btn-md btn-success" type="button" onclick="search_playlist('buffer')">Search</button>
+                    </div>
+                </div>
+
+                <ul id="buffer_playlist_results" class"p_list"></ul>
+
+                <div id="buffer_selected_playlist_card" class="card selected_p" >
+                  <ul id="buffer_selected_playlists"> </ul>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="card buffer_search">
+              <h1 class="form-check-label display-6">Bot Tracks</h1>
+              <div class="card-body row no-gutters align-items-center">
+                  <div class="col">
+                      <input id="bot_playlist_search" class="form-control form-control-md form-control-borderless" type="search" placeholder="Search Playlists">
+                  </div>
+                  <div class="col-auto">
+                      <button id="bot_playlist_search_b" class="btn btn-md btn-success" type="button" onclick="search_playlist('bot')">Search</button>
+                  </div>
+              </div>
+
+              <ul id="bot_playlist_results"> </ul>
+
+              <div id="bot_selected_playlist_card" class="card selected_p" >
+                <ul id="bot_selected_playlists"> </ul>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input-lg" id="playing_check">
+                <label class="form-check-label" for="playing_check">Playing</label><br>
+                <input disabled id="name" class="form-control form-control-lg form-control-borderless" type="text" maxlength="20" placeholder="Name">
+              </div>
+
+              <div class="card buffer_search">
+                <div class="card-body row no-gutters align-items-center">
+                    <div class="col">
+                        <input disabled id="song_search" class="form-control form-control-md form-control-borderless" type="search" placeholder="Search Song">
+                    </div>
+                    <div class="col-auto">
+                        <button id="song_search_b" class="btn btn-md btn-success" type="button" onclick="search_song()">Search</button>
+                    </div>
+                </div>
+                <ul id="song_results"> </ul>
+                <div id="selected_song_card" class="card selected_p" >
+                  <label id="selected_song" class="list-group-item list-group-item-action" value="default"></label>
+                </div>
+              </div>
+            </div>
+
+            <input id="submit_button" type="submit" value="Launch Game" class="btn btn-primary"></input>
+          </form>
+        </div>
+      <div>
+    </body>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="create_game.js"></script>
+    {% endblock %}
+</html>

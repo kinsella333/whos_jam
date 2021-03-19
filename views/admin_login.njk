@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  {% extends 'header.njk' %}
+  {% block content %}
+    <head>
+      <link rel="stylesheet" href="/admin_login.css" />
+    </head>
+    <body>
+      <div class="container">
+        <h1>Admin Login</h1>
+
+        <form id="admin_login_form">
+          <label for="admin_id">Admin ID</label>
+          <input name="id" type="id" class="form-control" id="admin_id" placeholder="ID">
+          <label for="admin_pin">Admin PIN</label>
+          <input name="pin" type="password" class="form-control" id="admin_pin" placeholder="PIN">
+          <input id="submit_button" type="submit" class="btn btn-primary"></input>
+        </form>
+      <div>
+    </body>
+    <script>
+      const $form = $('#admin_login_form')
+
+      $form.on('submit', submitHandler)
+
+      function submitHandler (e) {
+        e.preventDefault()
+
+        $.ajax({
+          url: '/api/admins/admin_login',
+          type:'POST',
+          data: $form.serialize(),
+          success: function(){
+            $.ajax({
+              url: '/api/spotify/spotify_signin',
+              type:'GET',
+              success: function(auth_url){
+                window.location.href = auth_url
+              }
+            })
+          },
+          error: function(){
+            alert('Login Failure');
+          }
+        })
+      };
+    </script>
+    {% endblock %}
+</html>

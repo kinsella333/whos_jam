@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  {% extends 'header.njk' %}
+  {% block content %}
+    <head>
+      <link rel="stylesheet" href="/game.css" />
+    </head>
+    <body>
+      <div id='main_c' class="container">
+        <h1>Game</h1>
+        <div id='player_b' class="player_block">
+          <div class="point card ">
+            <h3 class="point_label">Possible Points:</h3>
+            <div class="point_score_box card">
+              <h3 id="points" value='0.0'>1000</h3>
+            </div>
+          </div>
+
+          <div class="player_block player">
+            <ul id="player_list" class="p_list"> </ul>
+          </div>
+
+          <div id="selected_player_card" class="card selected_p" >
+            <label id="selected_player" class="list-group-item list-group-item-action selected_p_name" value="default"></label>
+            <label id="selected_score" class="selected_score" value='0'>0</label>
+          </div>
+        </div>
+
+
+        <div id='resolve_b' class="resolve_block">
+          <div class="drink_distro">
+
+          </div>
+
+          <div class="song_show card">
+            <h3>Who's Jam?</h3>
+            <p id='song_name'></p>
+            <p id='song_artist'></p>
+
+            <div class="player_show">
+              <div class="card">
+                <p id='player_name'></p>
+
+                <div class="card">
+                  <p id='drinks_r'></p>
+                  <p id='drinks_g'></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <p id='player_top_points'></p>
+            </div>
+          </div>
+
+          <div class="admin">
+            <button onClick='continue_game()' type="button" name="button" class="btn btn-block btn-primary">Continue</button>
+          </div>
+        </div>
+
+        <div class="card q_search">
+          <h1 class="form-check-label display-6">Add Song to the Buffer List</h1>
+          <div class="card-body row no-gutters align-items-center">
+              <div class="col">
+                  <input id="q_song_search" class="form-control form-control-md form-control-borderless" type="search" placeholder="Search songs">
+              </div>
+              <div class="col-auto">
+                  <button id="q_song_search_b" class="btn btn-md btn-success" type="button" onclick="search_song()">Search</button>
+              </div>
+          </div>
+          <ul id="q_song_results"> </ul>
+        </div>
+
+        <div class="admin">
+          <div class="btn-group">
+             <button id="previous" type="button" class="btn btn-primary"><i class="fas fa-step-backward fa-10x"></i></button>
+             <button id="pause" type="button" class="btn btn-primary"><i class="fas fa-pause-circle fa-10x"></i></button>
+             <button id="play" type="button" class="btn btn-primary"><i class="fas fa-play-circle fa-10x"></i></button>
+             <button id="next" type="button" class="btn btn-primary"><i class="fas fa-step-forward fa-10x"></i></button>
+         </div>
+         <div class="end_game">
+           <button id="end" type="button" class="btn btn-block btn-outline-danger" onClick='end_game()'>End</button>
+         </div>
+      </div>
+      <div class="admin_button">
+        <button type="button" name="button" onClick="connectSpotify()" class="btn btn-block btn-outline-danger">Reconnect Spotify</button>
+      </div>
+     </div>
+    </body>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="game.js"></script>
+    {% endblock %}
+</html>
